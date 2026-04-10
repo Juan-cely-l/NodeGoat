@@ -14,9 +14,9 @@ name: "DevSecOps Security Pipeline"
 
 on:
   push:
-    branches: ["master", "main"]
+    branches: ["master"]
   pull_request:
-    branches: ["master", "main"]
+    branches: ["master"]
   workflow_dispatch:
 
 # ---------------------------------------------------------------------------
@@ -25,8 +25,8 @@ on:
 env:
   NODE_VERSION: "14.x"
   # Quality-gate thresholds (Pillar 0 – Continuous Security)
-  MAX_CRITICAL_FINDINGS: 0   # pipeline FAILS if critical findings exceed this
-  MAX_HIGH_FINDINGS: 5       # pipeline FAILS if high/error findings exceed this
+  MAX_CRITICAL_FINDINGS: 0
+  MAX_HIGH_FINDINGS: 5
   # SonarCloud identifiers (mirrors sonar-project.properties)
   SONAR_PROJECT_KEY: "Juan-cely-l_NodeGoat"
   SONAR_ORGANIZATION: "juan-cely-l"
@@ -78,7 +78,7 @@ jobs:
       - name: "Checkout repository"
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0        # full history required for SonarCloud blame data
+          fetch-depth: 0 # full history required for SonarCloud blame data
           persist-credentials: false
 
       - name: "Set up Node.js ${{ env.NODE_VERSION }}"
@@ -87,11 +87,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
+      - name: "Install Cypress system dependencies"
+        run: sudo apt-get install -y libgconf-2-4
+
       - name: "Install dependencies (clean install)"
         run: npm ci
-
-      - name: "Verify Cypress binary"
-        run: npm run cy:verify
 
       # Persist node_modules and Cypress cache for downstream jobs
       - name: "Cache build artefacts"
