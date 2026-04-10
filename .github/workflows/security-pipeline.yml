@@ -47,7 +47,7 @@ jobs:
   # ==========================================================================
   lint:
     name: "CI · Lint"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: "Checkout repository"
@@ -72,7 +72,7 @@ jobs:
   # ==========================================================================
   build:
     name: "CI · Build"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: "Checkout repository"
@@ -179,7 +179,7 @@ jobs:
   # ==========================================================================
   sast-njsscan:
     name: "SAST · njsscan"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [build]
 
     permissions:
@@ -295,7 +295,7 @@ jobs:
   # ==========================================================================
   sast-semgrep:
     name: "SAST · Semgrep"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [build]
 
     permissions:
@@ -499,7 +499,7 @@ jobs:
   # ==========================================================================
   sast-sonarcloud:
     name: "SAST · SonarCloud"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [build]
 
     steps:
@@ -530,7 +530,7 @@ jobs:
   # ==========================================================================
   upload-defectdojo:
     name: "Observability · DefectDojo Upload"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [sast-njsscan, sast-semgrep, sast-sonarcloud]
     # Run even when SAST jobs fail so findings are always recorded
     if: always()
@@ -616,7 +616,7 @@ jobs:
   # ==========================================================================
   deploy-simulated:
     name: "CD · Deploy (Simulated – Heroku)"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [lint, e2e-test, upload-defectdojo]
     # Only deploy from the default branch, not from PRs
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
