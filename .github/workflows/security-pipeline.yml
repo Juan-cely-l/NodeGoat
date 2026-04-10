@@ -90,10 +90,7 @@ jobs:
       - name: "Install Cypress system dependencies"
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y \
-            libgtk2.0-0 libgtk-3-0 libgbm-dev \
-            libnotify-dev libnss3 libxss1 \
-            libasound2t64 libxtst6 xauth xvfb
+          sudo apt-get install -y libgconf-2-4 xvfb
 
       - name: "Install dependencies (clean install)"
         run: npm ci
@@ -116,7 +113,7 @@ jobs:
   # ==========================================================================
   e2e-test:
     name: "Test · E2E (Node ${{ matrix.node-version }})"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [build]
 
     strategy:
